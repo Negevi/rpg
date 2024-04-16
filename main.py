@@ -1,9 +1,11 @@
 # Start of a long journey, to S
 
-from funcs import *
+from engines import *
+from classes import *
 
 # Melee has extra Hp and. Mage has a Eldritch blast mechanic. 
 # Crit fail and Crit Max mechanic
+# Some sort of death save mehcanic?
 
-# x = checker_option(2, "Hello! create?\n [1] Melee \n [2] Mage \n ")
-n = die_roll(1, 20)
+x = checker_option(2, "What would thou aspire to be in this adventure?\n [1] Melee \n [2] Mage \3 [3] to be implemented")
+player = Player(x)
