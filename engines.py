@@ -14,6 +14,7 @@ def die_roll(n, faces):
     while n > 0:
         roll = random.randint(1, faces)
         die_roll += roll
-        print(f"{p}D{roll}")
+        print(f"{p}D{roll},")
         n -= 1
+    print(f"total: {die_roll}")
     return die_roll
