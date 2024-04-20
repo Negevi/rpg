@@ -18,3 +18,10 @@ def die_roll(n, faces):
         n -= 1
     print(f"total: {die_roll}")
     return die_roll
+
+def adv_roll(x, y):
+    if x >= y:
+        return x
+    else:
+        return y
+    
