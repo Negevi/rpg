@@ -1,5 +1,5 @@
 from engines import *
-from generals import weapons
+from weapons import weapons
 # Basic stats: AC, HP, Xp ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
 class Stats:
     def __init__(self, chosen_class: int): # 1 = melee 2 = mage 3 = assasin

@@ -1,4 +1,4 @@
-weapons: {
+weapons = {
     "sword": {
         "desc": "A simple, rusty, sword. Used mainly for decoration!",
         "dmg": (2, 8, 0),
@@ -17,4 +17,4 @@ weapons: {
         "spell_caster":  False,
         "special": None
     }, 
-} # type: ignore
+}

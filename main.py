@@ -5,5 +5,5 @@ from classes import *
 # Crit fail and Crit Max mechanic
 # Some sort of death save mehcanic?
 
-dmg = (4, 5)
-print(die_roll(dmg.0, dmg.1))
+player = Player(checker_option(3, "Welcome traveler! What class would thou most like to be in this adventure?\n [1] Melee\n [2] Mage\n [3] Assasin\n"))
+print(player)
