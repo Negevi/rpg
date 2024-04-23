@@ -9,22 +9,25 @@ class Stats:
         if chosen_class == 1:
             self.ac = 13
             self.hp = 22
-            self.weapon = weapons["sword"]
+            self.weapon = weapons
+            self.abilities = "Rage"
         elif chosen_class == 2:
             self.ac = 11
             self.hp = 16
             self.weapon = weapons["staff"]
+            self.abilities = "Cast Spell"
         elif chosen_class == 3:
             self.ac = 14
             self.hp = 14
             self.weapon = weapons["dagger"]
+            self.abilities = "Assasinate"
             
 class Player():
     def __init__(self, chosen_class: int):
         self.stats = Stats(chosen_class)
         
     def __str__(player):
-        return f"Max hp: {player.stats.hp} \n Xp: {player.stats.xp} \n Armor class: {player.stats.ac} \n Gold: {player.stats.money} \n Equiped weapon(s): {player.stats.weapon} \n Item bag: {player.stats.item} \n"
+        return f"Max hp: {player.stats.hp} \n Xp: {player.stats.xp} \n Armor class: {player.stats.ac} \n Gold: {player.stats.money} \n Equiped weapon(s): {player.stats.weapon.keys()} \n Item bag: {player.stats.item} \n"
 
 class Weapons(): # intended for creation of new weapons
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str): # Note that dmg is defined as n + faces + flat modifier in a tuple.
