@@ -27,7 +27,7 @@ class Player():
         self.stats = Stats(chosen_class)
         
     def __str__(player):
-        return f"Max hp: {player.stats.hp} \n Xp: {player.stats.xp} \n Armor class: {player.stats.ac} \n Gold: {player.stats.money} \n Equiped weapon(s): {player.stats.weapon.keys()} \n Item bag: {player.stats.item} \n"
+        return f"Max hp: {player.stats.hp} \n Xp: {player.stats.xp} \n Armor class: {player.stats.ac} \n Gold: {player.stats.money} \n Equiped weapon(s): {Weapons.print_key(weapons, player.stats.weapon)} \n Item bag: {player.stats.item} \n"
 
 class Weapons(): # intended for creation of new weapons
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str): # Note that dmg is defined as n + faces + flat modifier in a tuple.
@@ -49,3 +49,11 @@ class Weapons(): # intended for creation of new weapons
         roll = die_roll(weapon.dmg[0], weapon.dmg[1]) + weapon.dmg[2]
         print(f"You did {roll} dmg!")
         return roll
+    
+    def print_key(dict: dict, weapon):
+        for key in dict.keys():
+            if dict == weapon:
+                return key
+            else:
+                continue
+        return None
