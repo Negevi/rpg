@@ -1,16 +1,16 @@
 from engines import *
-from weapons import weapons
+from dicts import (weapons, enemys)
 # Basic stats: AC, HP, Xp ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
 class Stats:
     def __init__(self, chosen_class: int): # 1 = melee 2 = mage 3 = assasin
-        self.money = 20 # default stats
+        self.money = 20 
         self.xp = 0
-        self.item = []
+        self.items = [] # default stats
         if chosen_class == 1:
             self.ac = 13
             self.hp = 22
-            self.weapon = weapons
-            self.abilities = "Rage"
+            self.weapon = weapons["sword"]
+            self.abilities = "Rage" # to add player abilities
         elif chosen_class == 2:
             self.ac = 11
             self.hp = 16
@@ -27,8 +27,13 @@ class Player():
         self.stats = Stats(chosen_class)
         
     def __str__(player):
-        return f"Max hp: {player.stats.hp} \n Xp: {player.stats.xp} \n Armor class: {player.stats.ac} \n Gold: {player.stats.money} \n Equiped weapon(s): {Weapons.print_key(weapons, player.stats.weapon)} \n Item bag: {player.stats.item} \n"
-
+        return f"Max hp: {player.stats.hp}\n" \
+           f"XP: {player.stats.xp}\n" \
+           f"Armor class: {player.stats.ac}\n" \
+           f"Gold: {player.stats.money}\n" \
+           f"Equipped weapon: {player.stats.weapon["name"]}\n    {player.stats.weapon["desc"]}\n" \
+           f"Item bag: {', '.join(player.stats.items)}" 
+           
 class Weapons(): # intended for creation of new weapons
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str): # Note that dmg is defined as n + faces + flat modifier in a tuple.
         self.desc = desc
@@ -48,12 +53,4 @@ class Weapons(): # intended for creation of new weapons
     def roll_dmg(self, weapon):
         roll = die_roll(weapon.dmg[0], weapon.dmg[1]) + weapon.dmg[2]
         print(f"You did {roll} dmg!")
-        return roll
-    
-    def print_key(dict: dict, weapon):
-        for key in dict.keys():
-            if dict == weapon:
-                return key
-            else:
-                continue
-        return None
+        return roll      
