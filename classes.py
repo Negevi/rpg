@@ -1,5 +1,6 @@
 from engines import *
 from dicts import (weapons, enemys)
+import random
 # Basic stats: AC, HP, Xp ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
 class Stats:
     def __init__(self, chosen_class: int): # 1 = melee 2 = mage 3 = assasin
@@ -31,7 +32,7 @@ class Player():
            f"XP: {player.stats.xp}\n" \
            f"Armor class: {player.stats.ac}\n" \
            f"Gold: {player.stats.money}\n" \
-           f"Equipped weapon: {player.stats.weapon["name"]}\n    {player.stats.weapon["desc"]}\n" \
+           f"Equipped weapon: {player.stats.weapon["name"]}\n   {player.stats.weapon["desc"]}\n" \
            f"Item bag: {', '.join(player.stats.items)}" 
            
 class Weapons(): # intended for creation of new weapons
@@ -41,7 +42,7 @@ class Weapons(): # intended for creation of new weapons
         self.spell_caster = spell_caster
         self.special = None
         
-    def dictadd(self, name: str, dmg: tuple, spell_caster: bool, desc: str): # add special weapon suport
+    def dictadd_weapon(self, name: str, dmg: tuple, spell_caster: bool, desc: str): # add special weapon suport
         weapon = Weapons(dmg, spell_caster, desc)
         weapons[name] = {
             "desc": weapon.desc,
@@ -54,3 +55,22 @@ class Weapons(): # intended for creation of new weapons
         roll = die_roll(weapon.dmg[0], weapon.dmg[1]) + weapon.dmg[2]
         print(f"You did {roll} dmg!")
         return roll      
+
+class Enemy():
+    def get_enemy():
+        key_id = 0
+        key_randomizer = random.randint(0, 2) # max of monsters
+        for key in enemys.keys():
+            if key_randomizer == key_id:
+                return key
+            else:
+                key_id += 1
+        
+    def dictadd_enemy(self, name: str, dmg: tuple, spell_caster: bool, desc: str):
+        weapon = Weapons(dmg, spell_caster, desc)
+        weapons[name] = {
+            "desc": weapon.desc,
+            "dmg": weapon.dmg,
+            "spell_caster":  weapon.spell_caster,
+            "special": None
+        }

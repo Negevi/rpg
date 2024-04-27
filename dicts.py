@@ -28,7 +28,6 @@ enemys = {
         "ac": 8,
         "weapon": weapons["dagger"],
         "abilities": None,
-        "dificulty": 1
     },
     "skeleton": {
         "name": "Skeleton",
@@ -42,7 +41,6 @@ enemys = {
                 "desc": "once per turn, removes an arm. Takes 4 dmg but cant die by using this. Arm has the same stats, but halfed, as well as base 1d4 dmg.",
                 }
             },
-        "dificulty": 1
     },
     "wraith": {
         "name": "Wraith",
@@ -50,6 +48,5 @@ enemys = {
         "ac": 15,
         "weapon": None, # to add
         "abilities": ["Ghost"], # all fisical atacks have disadv.
-        "dificulty": 2
     },
 } # the abilities to this point are merely to integrate battle mechanics, will prob change later
