@@ -57,20 +57,36 @@ class Weapons(): # intended for creation of new weapons
         return roll      
 
 class Enemy():
+    def __init__(self):
+        enemy = Enemy.get_enemy()
+        self.name = enemy["name"]
+        self.hp = enemy["hp"]
+        self.weapon = enemy["weapon"]
+        self.abilities = enemy["abilities"]
+        
+    def __str__(enemy):
+        return f"{enemy.name}\n" \
+           f"Hp: {enemy.hp}\n" \
+           f"Weapon: {enemy.weapon}\n" \
+           f"Abilitiy (s): {enemy.abilities}\n"
+                   
     def get_enemy():
         key_id = 0
         key_randomizer = random.randint(0, 2) # max of monsters
         for key in enemys.keys():
             if key_randomizer == key_id:
-                return key
+                return enemys.get(key)
             else:
                 key_id += 1
         
-    def dictadd_enemy(self, name: str, dmg: tuple, spell_caster: bool, desc: str):
-        weapon = Weapons(dmg, spell_caster, desc)
-        weapons[name] = {
-            "desc": weapon.desc,
-            "dmg": weapon.dmg,
-            "spell_caster":  weapon.spell_caster,
-            "special": None
-        }
+    def level(self, lvl):
+        multiplier =  int(1 + lvl / 4) # to change, dont know yet
+        self.hp * multiplier
+        
+    def gen_fight(Plvl) -> list:
+        hostiles = []
+        i = Plvl
+        for i in range(0, Plvl):
+            hostiles.append(Enemy.level(Enemy.get_enemy(), Plvl))
+            i -= 1
+        return hostiles

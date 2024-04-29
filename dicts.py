@@ -14,12 +14,24 @@ weapons = {
         "special": None
     },
     "dagger": {
-        "name": "Sagger",
+        "name": "agger",
         "desc": "A shitty kitchen knife, scary even to the mightiest tomatoes. who even called this a dagger?",
         "dmg": (4, 4, 0),
         "spell_caster":  False,
         "special": None
     }, 
+}
+abilities = {
+    "Brones": {
+        "name": "Brones",
+        "dmg": (1, 4, 0),
+        "desc": "once per turn, removes an arm. Takes 4 dmg but cant die by using this. Arm has the same stats, but halfed, as well as base 1d4 dmg.",
+    },
+    "Ghost": {
+        "name": "Brones",
+        "dmg": (1, 4, 0),
+        "desc": "once per turn, removes an arm. Takes 4 dmg but cant die by using this. Arm has the same stats, but halfed, as well as base 1d4 dmg.",
+    },
 }
 enemys = {
     "goblin": {
@@ -35,13 +47,8 @@ enemys = {
         "ac": 12,
         "weapon": weapons["sword"],
         "abilities": {
-            "Brones": {
-                "name": "Brones",
-                "dmg": (1, 4, 0),
-                "desc": "once per turn, removes an arm. Takes 4 dmg but cant die by using this. Arm has the same stats, but halfed, as well as base 1d4 dmg.",
-                }
-            },
-    },
+            "Brones": abilities["Brones"]
+        },
     "wraith": {
         "name": "Wraith",
         "hp": 25,
@@ -49,4 +56,5 @@ enemys = {
         "weapon": None, # to add
         "abilities": ["Ghost"], # all fisical atacks have disadv.
     },
+    }
 } # the abilities to this point are merely to integrate battle mechanics, will prob change later
