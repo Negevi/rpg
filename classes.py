@@ -60,6 +60,7 @@ class Enemy():
     def __init__(self):
         enemy = Enemy.get_enemy()
         self.name = enemy["name"]
+        self.desc = enemy["desc"]
         self.hp = enemy["hp"]
         self.weapon = enemy["weapon"]
         self.abilities = enemy["abilities"]
@@ -67,8 +68,9 @@ class Enemy():
     def __str__(enemy):
         return f"{enemy.name}\n" \
            f"Hp: {enemy.hp}\n" \
-           f"Weapon: {enemy.weapon}\n" \
-           f"Abilitiy (s): {enemy.abilities}\n"
+           f"Description: {enemy.desc}\n" \
+           f"Weapon: {enemy.weapon["name"]}\n" \
+           f"Abilitiy (s): {enemy.abilities["name"]}\n {enemy.abilities["desc"]}\n"
                    
     def get_enemy():
         key_id = 0
@@ -90,3 +92,4 @@ class Enemy():
             hostiles.append(Enemy.level(Enemy.get_enemy(), Plvl))
             i -= 1
         return hostiles
+

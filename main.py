@@ -5,5 +5,4 @@ from classes import *
 # Crit fail and Crit Max mechanic
 # Some sort of death save mehcanic?
 
-enemy = Enemy()
-print(enemy)
+print(Enemy())
