@@ -81,9 +81,9 @@ class Enemy():
             else:
                 key_id += 1
         
-    def level(self, lvl):
+    def level(enemy, lvl):
         multiplier =  int(1 + lvl / 4) # to change, dont know yet
-        self.hp * multiplier
+        enemy.hp * multiplier
         
     def gen_fight(Plvl) -> list:
         hostiles = []

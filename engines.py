@@ -1,5 +1,6 @@
 import random
 import classes
+import classes
 
 def checker_option(n, statement):
     x = int(input(statement))
@@ -24,4 +25,10 @@ def adv_roll(x, y):
     if x >= y:
         return x
     else:
-        return y    
+        return y
+
+def dsv_roll(x, y):
+    if x <= y:
+        return x
+    else:
+        return y
