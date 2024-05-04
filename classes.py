@@ -71,6 +71,13 @@ class Enemy():
            f"Description: {enemy.desc}\n" \
            f"Weapon: {enemy.weapon["name"]}\n" \
            f"Abilitiy (s): {enemy.abilities["name"]}\n {enemy.abilities["desc"]}\n"
+        
+    def print_hostiles(hostiles):
+        counter = len(hostiles)
+        while counter != 0:
+            enemy = hostiles[0]
+            print(enemy)
+            counter -= 1
                    
     def get_enemy():
         key_id = 0
@@ -83,7 +90,8 @@ class Enemy():
         
     def level(enemy, lvl):
         multiplier =  int(1 + lvl / 4) # to change, dont know yet
-        enemy.hp * multiplier
+        enemy["hp"] * multiplier
+        return enemy
         
     def gen_fight(Plvl) -> list:
         hostiles = []
@@ -92,4 +100,3 @@ class Enemy():
             hostiles.append(Enemy.level(Enemy.get_enemy(), Plvl))
             i -= 1
         return hostiles
-
