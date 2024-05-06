@@ -65,20 +65,19 @@ class Enemy():
         self.weapon = enemy["weapon"]
         self.abilities = enemy["abilities"]
         
-    def __str__(enemy):
-        return f"{enemy.name}\n" \
-           f"Hp: {enemy.hp}\n" \
-           f"Description: {enemy.desc}\n" \
-           f"Weapon: {enemy.weapon["name"]}\n" \
-           f"Abilitiy (s): {enemy.abilities["name"]}\n {enemy.abilities["desc"]}\n"
-        
+    def __str__(self):
+        return f"{self.name}\n" \
+        f"Hp: {self.hp}\n" \
+        f"Description: {self.desc}\n" \
+        f"Weapon: {self.weapon['name']}\n" \
+        f"Ability(s): {self.abilities['name']}\n {self.abilities['desc']}\n"
+    
+    @staticmethod
     def print_hostiles(hostiles):
-        counter = len(hostiles)
-        while counter != 0:
-            enemy = hostiles[0]
+        for enemy in hostiles:
             print(enemy)
-            counter -= 1
-                   
+        
+    @staticmethod          
     def get_enemy():
         key_id = 0
         key_randomizer = random.randint(0, 2) # max of monsters
@@ -87,16 +86,18 @@ class Enemy():
                 return enemys.get(key)
             else:
                 key_id += 1
-        
+    
+    @staticmethod
     def level(enemy, lvl):
         multiplier =  int(1 + lvl / 4) # to change, dont know yet
-        enemy["hp"] * multiplier
+        enemy['hp'] * multiplier
         return enemy
-        
-    def gen_fight(Plvl) -> list:
+    
+    @staticmethod    
+    def gen_fight(Plvl):
         hostiles = []
         i = Plvl
         for i in range(0, Plvl):
-            hostiles.append(Enemy.level(Enemy.get_enemy(), Plvl))
+            hostiles.append(Enemy())
             i -= 1
         return hostiles

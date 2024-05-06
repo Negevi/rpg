@@ -5,4 +5,4 @@ from classes import *
 # Crit fail and Crit Max mechanic
 # Some sort of death save mehcanic?
 
-Enemy.print_hostiles(Enemy.gen_fight(2))
+print(Enemy.gen_fight(2))
