@@ -71,11 +71,6 @@ class Enemy():
         f"Description: {self.desc}\n" \
         f"Weapon: {self.weapon['name']}\n" \
         f"Ability(s): {self.abilities['name']}\n {self.abilities['desc']}\n"
-    
-    @staticmethod
-    def print_hostiles(hostiles):
-        for enemy in hostiles:
-            print(enemy)
         
     @staticmethod          
     def get_enemy():
@@ -101,3 +96,8 @@ class Enemy():
             hostiles.append(Enemy())
             i -= 1
         return hostiles
+    
+    @staticmethod
+    def print_hostiles(hostiles):
+        for enemy in hostiles:
+            print(f"{enemy}")
