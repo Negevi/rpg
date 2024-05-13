@@ -4,22 +4,22 @@ import random
 # Basic stats: AC, HP, Xp ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
 class Stats:
     def __init__(self, chosen_class: int): # 1 = melee 2 = mage 3 = assasin
-        self.money = 20 
-        self.xp = 0
-        self.items = [] # default stats
+        self.money: int = 20 
+        self.xp: int = 0
+        self.items: list = [] # default stats
         if chosen_class == 1:
-            self.ac = 13
-            self.hp = 22
+            self.ac: int = 13
+            self.hp: int = 22
             self.weapon = weapons["sword"]
             self.abilities = "Rage" # to add player abilities
         elif chosen_class == 2:
-            self.ac = 11
-            self.hp = 16
+            self.a: int = 11
+            self.hp: int = 16
             self.weapon = weapons["staff"]
             self.abilities = "Cast Spell"
         elif chosen_class == 3:
-            self.ac = 14
-            self.hp = 14
+            self.ac: int = 14
+            self.hp: int = 14
             self.weapon = weapons["dagger"]
             self.abilities = "Assasinate"
             
