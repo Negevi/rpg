@@ -1,5 +1,4 @@
-from engines import *
-from classes import *
+from funcs import *
 
 # Melee has Rage. Mage has a Eldritch blast mechanic. Assasin can assasinate
 # Crit fail and Crit Max mechanic
