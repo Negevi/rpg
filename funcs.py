@@ -1,4 +1,3 @@
-from engines import *
 from dicts import (weapons, enemys)
 import random
 # Basic stats: AC, HP, Xp ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
@@ -33,7 +32,19 @@ class Player():
            f"Armor class: {player.stats.ac}\n" \
            f"Gold: {player.stats.money}\n" \
            f"Equipped weapon: {player.stats.weapon["name"]}\n   {player.stats.weapon["desc"]}\n" \
-           f"Item bag: {', '.join(player.stats.items)}" 
+           f"Item bag: {', '.join(player.stats.items)}"
+    
+    def turn(self, enemy):
+        check = checker_option(2, "What would you like to do?\n [0] use ability\n [1] Atack")
+        if check == 0:
+            print("use ability!")
+        if check == 1:
+            if die_roll(1, 20, self.stats.weapon.dmg[0]) >= enemy.ac:
+                print("Hit!")
+                dmg = Weapons.roll_dmg(self.stats.weapon)
+                enemy.hp -= dmg
+            else:
+                print("Miss!")
            
 class Weapons(): # intended for creation of new weapons
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str): # Note that dmg is defined as n + faces + flat modifier in a tuple.
@@ -64,6 +75,7 @@ class Enemy():
         self.hp = enemy["hp"]
         self.weapon = enemy["weapon"]
         self.abilities = enemy["abilities"]
+        self.ac = enemy["ac"]
         
     def __str__(self):
         return f"{self.name}\n" \
@@ -100,8 +112,10 @@ class Enemy():
     
     @staticmethod
     def print_hostiles(hostiles):
+        id = 0
         for enemy in hostiles:
-            print(f"{enemy}")
+            print(f"{enemy}\n id={id}")
+            id += 1
 
 def checker_option(n, statement):
     x = int(input(statement))
@@ -135,18 +149,20 @@ def dsv_roll(x, y):
         return y
     
 def to_lvl(xp):
+    lvl = 0
     while xp > 1:
-        lvl = round(xp / 2, 0) # lvl up system, xp amount raises by 2x 
+        lvl += round(xp / 2, 0) # lvl up system, xp amount raises by 2x 
     return lvl + 1
 
 def encounter(player):
     print("A fight will begin!")
     hostiles: list = Enemy.gen_fight(player.stats.xp)
+    Enemy.print_hostiles(hostiles)
     init = die_roll(1, 20)
     print("init!")
-    while (player.hp or hostiles.len()) != 0:
+    while (player.stats.hp or hostiles.len()) != 0:
         if init >= 10:
-            print("Your turn!")
+            Player.turn(player, hostiles[0])
             for enemy in hostiles:
                 print("enemys turn!")
                 hostiles.remove(enemy)
