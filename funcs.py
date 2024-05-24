@@ -1,5 +1,6 @@
 from dicts import weapons, enemys
 import random
+import time
 
 # Basic stats: AC, HP, XP ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
 class Stats:
@@ -36,18 +37,18 @@ class Player:
                 f"Item bag: {', '.join(self.stats.items)}\n")
 
     def turn(self, enemy):
-        check = Engines.checker_option(2, "What would you like to do?\n [0] use ability\n [1] Attack")
+        check = Engines.checker_option(2, "What would you like to do?\n [0] use ability\n [1] Attack\n")
         if check == 0:
             print("Use ability!")
         if check == 1:
-            if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][0] >= enemy.ac:
+            if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][2] >= enemy.ac:
                 print("Hit!")
                 dmg = Weapons.roll_dmg(self.stats.weapon)
                 enemy.hp -= dmg
             else:
                 print("Miss!")
 
-class Weapons:  # intended for creation of new weapons
+class Weapons:
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str):  # dmg is defined as (n, faces, flat modifier)
         self.desc = desc
         self.dmg = (dmg[0], dmg[1], dmg[2])
@@ -56,7 +57,7 @@ class Weapons:  # intended for creation of new weapons
 
     @staticmethod
     def dictadd_weapon(name: str, dmg: tuple, spell_caster: bool, desc: str):  # add special weapon support
-        weapon = Weapons(dmg, spell_caster, desc)
+        weapon = Weapons(dmg, spell_caster, desc) # intended for creation of new weapons
         weapons[name] = {
             "desc": weapon.desc,
             "dmg": weapon.dmg,
@@ -91,8 +92,13 @@ class Enemy:
         if Engines.die_roll(1, 6) == 6:  # here, if 1d6 = 6, use ability
             print("Ability!")
         else:
-            dmg = Weapons.roll_dmg(self.weapon)
-            player.stats.hp -= dmg
+            print(f"{self.name} will atack!\n")
+            if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][2] >= player.stats.ac:
+                dmg = Weapons.roll_dmg(self.weapon.dmg)
+                player.stats.hp -= dmg
+            else:
+                print(f"{self.name} missed!")
+
 
     @staticmethod
     def get_enemy():
@@ -112,48 +118,26 @@ class Enemy:
 
     @staticmethod
     def gen_fight(Plvl):
-        Engines.to_lvl(Plvl)
+        lvl = Engines.to_lvl(Plvl)
         hostiles = []
-        for _ in range(Plvl):
+        while lvl != 0:
             hostiles.append(Enemy())
+            lvl -= 1
         return hostiles
 
     @staticmethod
     def print_hostiles(hostiles):
-        for id, enemy in enumerate(hostiles):
-            print(f"{enemy}\n id={id}")
-
-def encounter(player):
-    hostiles = Enemy.gen_fight(Engines.to_lvl(player.stats.xp))
-    init = Engines.die_roll(1, 20)
-    print("init!^")
-    while player.stats.hp > 0 and len(hostiles) > 0:
-        if init >= 10:
-            Enemy.print_hostiles(hostiles)
-            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
-            player.turn(enemy)
-            if enemy.hp <= 0:
-                hostiles.remove(enemy)
-
-            for enemy in hostiles:
-                print(f"{enemy.name} turn!")
-                enemy.turn(player)
-        else:
-            for enemy in hostiles:
-                print(f"{enemy.name} turn!")
-                enemy.turn(player)
-
-            Enemy.print_hostiles(hostiles)
-            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
-            player.turn(enemy)
-            if enemy.hp <= 0:
-                hostiles.remove(enemy)
+        id = 0
+        for enemy in hostiles:
+            print(f"\n{enemy} id = {id}\n")
+            id += 1
 
 class Engines:
     @staticmethod
     def checker_option(n, statement):
         x = int(input(statement))
         if x < 0 or x >= n:
+            print("Invalid number\n")
             return Engines.checker_option(n, statement)
         else:
             return x
@@ -162,9 +146,11 @@ class Engines:
     def die_roll(n, faces):
         die_roll = 0
         for _ in range(n):
+            time.sleep(.200)
             roll = random.randint(1, faces)
             die_roll += roll
             print(f"{n}D{roll},")
+        time.sleep(.500)
         print(f"total: {die_roll}")
         return die_roll
 
@@ -183,3 +169,36 @@ class Engines:
             lvl += round(xp / 2, 1)  # lvl up system, xp amount raises by 2x
             xp /= 2
         return lvl + 1
+
+def encounter(player):
+    print("A fight will begin!")
+    time.sleep(.700)
+    hostiles = Enemy.gen_fight(Engines.to_lvl(player.stats.xp))
+    time.sleep(.3)
+    print("init!")
+    init = Engines.die_roll(1, 20)
+    time.sleep(.700)
+    while player.stats.hp > 0 and len(hostiles) > 0:
+        if init >= 10:
+            print("Your turn!\n Enemys:")
+            Enemy.print_hostiles(hostiles)
+            time.sleep(.150)
+            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
+            Player.turn(player, enemy)
+            if enemy.hp <= 0:
+                hostiles.remove(enemy)
+
+            for enemy in hostiles:
+                print(f"{enemy.name}'s turn!")
+                Enemy.turn(enemy, player)
+        else:
+            for enemy in hostiles:
+                print(f"{enemy.name} turn!")
+                Enemy.turn(enemy, player)
+
+            print("Your turn!\n Enemys:")
+            Enemy.print_hostiles(hostiles)
+            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
+            Player.turn(player, enemy)
+            if enemy.hp <= 0:
+                hostiles.remove(enemy)
