@@ -35,12 +35,10 @@ abilities = {
     },
     "brones": {
         "name": "Brones",
-        "dmg": (1, 4, 0),
-        "desc": "once per turn, removes an arm. Takes 4 dmg but cant die by using this. Arm has the same stats, but halfed, as well as base 1d4 dmg.",
+        "desc": "once per turn, removes an arm. Takes 4 dmg but can't die by using this. Arm has the same stats as the skelly, but halfed, as well as base 1d4 dmg.",
     },
     "ghost": {
         "name": "Ghost",
-        "dmg": (1, 4, 0),
         "desc": "Enemy gets + 2 AC and has advantadge on all fisical atack type atack rolls.",
     },
 }
@@ -60,6 +58,14 @@ enemys = {
         "ac": 12,
         "weapon": weapons["sword"],
         "abilities": abilities["brones"],
+    },
+    "skeleton-arm": {
+        "name": "Helping-hand",
+        "desc": "Need a hand?",
+        "hp": 8,
+        "ac": 10,
+        "weapon": weapons["none"],
+        "dmg": (1, 4, 0),
     },
     "wraith": {
         "name": "Wraith",

@@ -2,28 +2,6 @@ from dicts import weapons, enemys
 import random
 import time
 
-# Basic stats: AC, HP, XP ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
-class Stats:
-    def __init__(self, chosen_class: int):  # 1 = melee, 2 = mage, 3 = assassin
-        self.money: int = 20
-        self.xp: int = 0
-        self.items: list = []  # default stats
-        if chosen_class == 1:
-            self.ac: int = 13
-            self.hp: int = 22
-            self.weapon = weapons["sword"]
-            self.abilities = "Rage"  # to add player abilities
-        elif chosen_class == 2:
-            self.ac: int = 11
-            self.hp: int = 16
-            self.weapon = weapons["staff"]
-            self.abilities = "Cast Spell"
-        elif chosen_class == 3:
-            self.ac: int = 14
-            self.hp: int = 14
-            self.weapon = weapons["dagger"]
-            self.abilities = "Assassinate"
-
 class Player:
     def __init__(self, chosen_class: int):
         self.stats = Stats(chosen_class)
@@ -47,6 +25,61 @@ class Player:
                 enemy.hp -= dmg
             else:
                 print("Miss!")
+        
+    def encounter(player):
+        print("A fight will begin!")
+        time.sleep(.700)
+        hostiles = Enemy.gen_fight(Engines.to_lvl(player.stats.xp))
+        time.sleep(.3)
+        print("init!")
+        init = Engines.die_roll(1, 20)
+        time.sleep(.700)
+        while player.stats.hp > 0 and len(hostiles) > 0:
+            if init >= 10:
+                print("Your turn!\n Enemys:")
+                Enemy.print_hostiles(hostiles)
+                time.sleep(.150)
+                enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
+                Player.turn(player, enemy)
+                if enemy.hp <= 0:
+                    hostiles.remove(enemy)
+
+                for enemy in hostiles:
+                    print(f"{enemy.name}'s turn!")
+                    Enemy.turn(enemy, player)
+            else:
+                for enemy in hostiles:
+                    print(f"{enemy.name} turn!")
+                    Enemy.turn(enemy, player)
+
+                print("Your turn!\n Enemys:")
+                Enemy.print_hostiles(hostiles)
+                enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
+                Player.turn(player, enemy)
+                if enemy.hp <= 0:
+                    hostiles.remove(enemy)
+                    
+# Basic stats: AC, HP, XP ( << class), Items (list of item class), weapon, money, and generals (name, race, sex?)
+class Stats:
+    def __init__(self, chosen_class: int):  # 1 = melee, 2 = mage, 3 = assassin
+        self.money: int = 20
+        self.xp: int = 0
+        self.items: list = []  # default stats
+        if chosen_class == 1:
+            self.ac: int = 13
+            self.hp: int = 22
+            self.weapon = weapons["sword"]
+            self.abilities = "Rage"  # to add player abilities
+        elif chosen_class == 2:
+            self.ac: int = 11
+            self.hp: int = 16
+            self.weapon = weapons["staff"]
+            self.abilities = "Cast Spell"
+        elif chosen_class == 3:
+            self.ac: int = 14
+            self.hp: int = 14
+            self.weapon = weapons["dagger"]
+            self.abilities = "Assassinate"
 
 class Weapons:
     def __init__(self, dmg: tuple, spell_caster: bool, desc: str):  # dmg is defined as (n, faces, flat modifier)
@@ -91,7 +124,7 @@ class Enemy:
     def turn(self, player):
         if Engines.silent_die_roll(1, 6) == 6:  # here, if 1d6 = 6, use ability
             print("Ability!")
-            Player.use_ability()
+            Enemy.ability()
         else:
             print(f"{self.name} will atack!\n")
             if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][2] >= player.stats.ac:
@@ -99,6 +132,9 @@ class Enemy:
                 player.stats.hp -= dmg
             else:
                 print(f"{self.name} missed!")
+    
+#    def ability(self):
+#        self.
 
 
     @staticmethod
@@ -177,36 +213,3 @@ class Engines:
             lvl += round(xp / 2, 1)  # lvl up system, xp amount raises by 2x
             xp /= 2
         return lvl + 1
-
-def encounter(player):
-    print("A fight will begin!")
-    time.sleep(.700)
-    hostiles = Enemy.gen_fight(Engines.to_lvl(player.stats.xp))
-    time.sleep(.3)
-    print("init!")
-    init = Engines.die_roll(1, 20)
-    time.sleep(.700)
-    while player.stats.hp > 0 and len(hostiles) > 0:
-        if init >= 10:
-            print("Your turn!\n Enemys:")
-            Enemy.print_hostiles(hostiles)
-            time.sleep(.150)
-            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
-            Player.turn(player, enemy)
-            if enemy.hp <= 0:
-                hostiles.remove(enemy)
-
-            for enemy in hostiles:
-                print(f"{enemy.name}'s turn!")
-                Enemy.turn(enemy, player)
-        else:
-            for enemy in hostiles:
-                print(f"{enemy.name} turn!")
-                Enemy.turn(enemy, player)
-
-            print("Your turn!\n Enemys:")
-            Enemy.print_hostiles(hostiles)
-            enemy = hostiles[Engines.checker_option(len(hostiles), "Which enemy will you attack? (Id)\n")]
-            Player.turn(player, enemy)
-            if enemy.hp <= 0:
-                hostiles.remove(enemy)
