@@ -41,7 +41,7 @@ class Player:
         if check == 0:
             print("Use ability!")
         if check == 1:
-            if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][2] >= enemy.ac:
+            if Engines.die_roll(1, 20) + self.weapon["dmg"][2] >= enemy.ac:
                 print("Hit!")
                 dmg = Weapons.roll_dmg(self.stats.weapon)
                 enemy.hp -= dmg
@@ -89,8 +89,9 @@ class Enemy:
                 f"Ability(s): {self.abilities['name']}\n {self.abilities['desc']}\n")
 
     def turn(self, player):
-        if Engines.die_roll(1, 6) == 6:  # here, if 1d6 = 6, use ability
+        if Engines.silent_die_roll(1, 6) == 6:  # here, if 1d6 = 6, use ability
             print("Ability!")
+            Player.use_ability()
         else:
             print(f"{self.name} will atack!\n")
             if Engines.die_roll(1, 20) + self.stats.weapon["dmg"][2] >= player.stats.ac:
@@ -152,6 +153,13 @@ class Engines:
             print(f"{n}D{roll},")
         time.sleep(.500)
         print(f"total: {die_roll}")
+        return die_roll
+    
+    def silent_die_roll(n, faces):
+        die_roll = 0
+        for _ in range(n):
+            roll = random.randint(1, faces)
+            die_roll += roll
         return die_roll
 
     @staticmethod
